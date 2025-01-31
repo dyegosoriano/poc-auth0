@@ -3,13 +3,13 @@ import { Navigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 
 const PrivateRoute = ({ children, requiredRole }) => {
-  const { isAuthenticated, hasRole } = useAuth()
+  const { isAuthenticated, hasPermission } = useAuth()
 
   if (!isAuthenticated) {
     return <Navigate to="/" />
   }
 
-  if (requiredRole && !hasRole(requiredRole)) {
+  if (requiredRole && hasPermission(requiredRole)) {
     return <Navigate to="/" />
   }
 

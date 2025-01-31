@@ -5,15 +5,17 @@ import { useAuth } from '../hooks/useAuth'
 
 const NavBar = () => {
   const { loginWithRedirect, logout, isAuthenticated, user } = useAuth0()
-  const { isAdmin, isUser } = useAuth()
+  const { hasPermission } = useAuth()
 
   return (
     <nav className="flex flex-col font-[family-name:var(--font-geist-sans)]">
       <header className="p-4 shadow-md">
         <div className="container mx-auto flex justify-between items-center">
-          <Link to="/">Home</Link>
-          {isAdmin && <Link to="/admin">Admin Page</Link>}
-          {isUser && <Link to="/user">User Page</Link>}
+          <div className="flex gap-6">
+            <Link to="/">Home</Link>
+            {hasPermission('admin:user') && <Link to="/admin">Admin Page</Link>}
+            {hasPermission('user:view') && <Link to="/user">User Page</Link>}
+          </div>
 
           {isAuthenticated && user && (
             <div className="flex items-center space-x-4">

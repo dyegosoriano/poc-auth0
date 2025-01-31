@@ -1,7 +1,7 @@
-import { useAuth0 } from '@auth0/auth0-react'
+import { useAuth } from '../hooks/useAuth'
 
 const Home = () => {
-  const { isAuthenticated, user } = useAuth0()
+  const { isAuthenticated, user } = useAuth()
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">

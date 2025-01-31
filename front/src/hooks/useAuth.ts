@@ -1,16 +1,35 @@
 import { useAuth0 } from '@auth0/auth0-react'
+import { useEffect, useState } from 'react'
+import * as jwt from 'jwt-decode'
 
 export const useAuth = () => {
-  const { isAuthenticated, getAccessTokenSilently, user } = useAuth0()
+  const { getAccessTokenSilently, isAuthenticated, user } = useAuth0()
+  const [permissions, setPermissions] = useState([])
 
-  const hasRole = role => user?.['http://localhost:3000/roles']?.includes(role) || false
+  const hasPermission = (permission: string) => permissions?.includes(permission) || false
+
+  useEffect(() => {
+    const getUserPermissions = async () => {
+      if (!isAuthenticated) return
+
+      try {
+        const token = await getAccessTokenSilently()
+        const decodedToken = jwt.jwtDecode(token)
+
+        setPermissions(decodedToken?.permissions || [])
+      } catch (error) {
+        console.error('Erro ao obter permissões:', error)
+      }
+    }
+
+    getUserPermissions()
+  }, [isAuthenticated])
 
   return {
-    isAdmin: hasRole('admin'),
-    isUser: hasRole('user'),
     getAccessTokenSilently,
     isAuthenticated,
-    hasRole,
+    hasPermission,
+    permissions,
     user
   }
 }
