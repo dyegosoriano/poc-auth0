@@ -3,8 +3,11 @@ import 'express-async-errors'
 import 'dotenv/config'
 
 import express, { Application } from 'express'
+import cors from 'cors'
 
 import errorHandling from './middlewares/errorHandling'
+import { debugMiddleware } from './middlewares/debug'
+import { routes } from './routes/users.routes'
 
 export class AppServer {
   private readonly server: Application
@@ -32,12 +35,14 @@ export class AppServer {
   }
 
   private middlewares() {
+    if (process.env.DEBUG === 'TRUE') this.server.use(debugMiddleware)
     this.server.disable('x-powered-by')
+    this.server.use(cors())
 
     this.server.use(express.json())
   }
 
   private routes() {
-    // expressSetupRoutes(this.server)
+    this.server.use(routes)
   }
 }

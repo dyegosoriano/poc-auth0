@@ -1,7 +1,7 @@
 import 'dotenv/config'
 import { AppServer } from './app'
 
-const port = Number(process.env.PORT) || 3333
+const port = Number(process.env.PORT) || 3000
 const app = new AppServer()
 
 const server = app.start(port)
