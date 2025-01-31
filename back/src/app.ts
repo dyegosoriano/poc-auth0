@@ -2,12 +2,13 @@ import 'reflect-metadata'
 import 'express-async-errors'
 import 'dotenv/config'
 
-import express, { Application } from 'express'
+import express, { Application, Router } from 'express'
 import cors from 'cors'
 
 import errorHandling from './middlewares/errorHandling'
 import { debugMiddleware } from './middlewares/debug'
-import { routes } from './routes/users.routes'
+import { usersRoutes } from './routes/users.routes'
+import { rolesRoutes } from './routes/roles.routes'
 
 export class AppServer {
   private readonly server: Application
@@ -43,6 +44,7 @@ export class AppServer {
   }
 
   private routes() {
-    this.server.use(routes)
+    this.server.use(usersRoutes)
+    this.server.use(rolesRoutes)
   }
 }

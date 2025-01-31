@@ -14,7 +14,6 @@ export default {
       return res.status(401).json({ message: 'Unauthorized: Invalid token', error: error.message })
     }
 
-    // TODO: implementar método para salvar os logs de erros em um banco de dados.
     console.log(error.stack)
 
     res.status(500).json({ status: 'error', message: 'Internal server error' })

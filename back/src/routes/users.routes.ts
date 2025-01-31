@@ -1,10 +1,13 @@
 import { Router } from 'express'
-import { jwtCheck } from '../middlewares/auth'
 
-const routes = Router()
+import { jwtCheck, management } from '../middlewares/auth'
 
-routes
-  .get('/admin', jwtCheck, (req, res) => res.json({ message: 'Admin endpoint' }))
-  .get('/user', jwtCheck, (req, res) => res.json({ message: 'User endpoint' }))
+const usersRoutes = Router()
 
-export { routes }
+usersRoutes.get('/users', jwtCheck, async (req: Request, res: Response) => {
+  const response = await management.users.getAll()
+
+  return res.json({ users: response.data })
+})
+
+export { usersRoutes }
