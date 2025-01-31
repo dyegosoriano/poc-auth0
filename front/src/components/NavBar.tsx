@@ -8,7 +8,7 @@ const NavBar = () => {
   const { isAdmin, isUser } = useAuth()
 
   return (
-    <nav className="flex flex-col min-h-screen font-[family-name:var(--font-geist-sans)]">
+    <nav className="flex flex-col font-[family-name:var(--font-geist-sans)]">
       <header className="p-4 shadow-md">
         <div className="container mx-auto flex justify-between items-center">
           <Link to="/">Home</Link>
