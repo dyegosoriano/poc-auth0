@@ -4,7 +4,7 @@ import * as jwt from 'jwt-decode'
 
 export const useAuth = () => {
   const { getAccessTokenSilently, isAuthenticated, user } = useAuth0()
-  const [permissions, setPermissions] = useState([])
+  const [permissions, setPermissions] = useState<string[]>([])
 
   const hasPermission = (permission: string) => permissions?.includes(permission) || false
 
@@ -14,7 +14,7 @@ export const useAuth = () => {
 
       try {
         const token = await getAccessTokenSilently()
-        const decodedToken = jwt.jwtDecode(token)
+        const decodedToken: { permissions: [] } = jwt.jwtDecode(token)
 
         setPermissions(decodedToken?.permissions || [])
       } catch (error) {

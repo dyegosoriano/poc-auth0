@@ -1,3 +1,4 @@
+import { useParams } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { useAuth } from '../hooks/useAuth'
 import axios from 'axios'
@@ -7,6 +8,7 @@ import { IRole } from '../types/Roles'
 
 const User = () => {
   const { getAccessTokenSilently, user: userAuth } = useAuth()
+  const { id } = useParams<{ id: string }>()
 
   const [user, setUser] = useState<IUserProfile>()
   const [roles, setRoles] = useState<IRole[]>([])
@@ -23,8 +25,8 @@ const User = () => {
         const headers = { headers: { Authorization: `Bearer ${token}` } }
 
         const [roleResponse, userResponse] = await Promise.all([
-          axios.get(api_url + 'users/' + userAuth?.sub + '/roles', headers),
-          axios.get(api_url + 'users/' + userAuth?.sub, headers)
+          axios.get(api_url + 'users/' + (id || userAuth?.sub) + '/roles', headers),
+          axios.get(api_url + 'users/' + (id || userAuth?.sub), headers)
         ])
 
         setRoles(roleResponse?.data)
@@ -37,7 +39,7 @@ const User = () => {
     }
 
     fetchUserData()
-  }, [getAccessTokenSilently])
+  }, [])
 
   if (loading) return <div>Carregando...</div>
 

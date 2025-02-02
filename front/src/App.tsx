@@ -1,6 +1,5 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 
-// import PrivateRoute from './components/PrivateRoute'
 import NavBar from './components/NavBar'
 import Admin from './pages/Admin'
 import User from './pages/User'
@@ -14,24 +13,9 @@ function App() {
 
       <Routes>
         <Route path="/" element={<Home />} />
-
-        <Route
-          path="/admin"
-          element={
-            // <PrivateRoute requiredRole="admin:user:list">
-            <Admin />
-            // </PrivateRoute>
-          }
-        />
-
-        <Route
-          path="/user"
-          element={
-            // <PrivateRoute requiredRole="user:view">
-            <User />
-            // </PrivateRoute>
-          }
-        />
+        <Route path="/user/:id" element={<User />} />
+        <Route path="/admin" element={<Admin />} />
+        <Route path="/user" element={<User />} />
       </Routes>
     </Router>
   )
