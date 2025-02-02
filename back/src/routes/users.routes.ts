@@ -21,5 +21,14 @@ usersRoutes
       res.status(500).json({ error: 'Failed to list users' })
     }
   })
+  .get('/users/:user_id/roles', jwtCheck, async (req: Request, res: Response) => {
+    try {
+      const { user_id } = req.params
+      const response = await management.users.getRoles({ id: user_id })
+      return res.json(response.data)
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to list user roles' })
+    }
+  })
 
 export { usersRoutes }
