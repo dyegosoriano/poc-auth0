@@ -14,21 +14,25 @@ const Admin = () => {
 
   useEffect(() => {
     const fetchAdmins = async () => {
+      setLoading(true)
+
       try {
-        const api_url = 'http://localhost:3000/'
         const token = await getAccessTokenSilently()
+        const api_url = 'http://localhost:3000/'
+
+        const headers = { headers: { Authorization: `Bearer ${token}` } }
 
         const [responseUsers, responseRoles] = await Promise.all([
-          axios.get(api_url + 'users', { headers: { Authorization: `Bearer ${token}` } }),
-          axios.get(api_url + 'roles', { headers: { Authorization: `Bearer ${token}` } })
+          axios.get(api_url + 'users', headers),
+          axios.get(api_url + 'roles', headers)
         ])
 
-        setUsers(responseUsers?.data?.users || [])
-        setRoles(responseRoles?.data?.roles || [])
+        setUsers(responseUsers?.data || [])
+        setRoles(responseRoles?.data || [])
 
         setLoading(false)
-      } catch (err) {
-        console.error(err)
+      } catch (error) {
+        console.error(error)
         setLoading(false)
       }
     }
@@ -43,7 +47,7 @@ const Admin = () => {
       <h1 className="text-3xl font-bold mb-6">Painel Administrativo</h1>
 
       <div className="mb-6">
-        <h2 className="text-xl font-semibold mb-4">Gestão de Funções</h2>
+        <h2 className="text-xl font-semibold mt-12 mb-4">Gestão de Funções</h2>
         <table className="min-w-full">
           <thead>
             <tr>
@@ -63,7 +67,7 @@ const Admin = () => {
           </tbody>
         </table>
 
-        <h2 className="text-xl font-semibold mb-4">Gestão de Usuários</h2>
+        <h2 className="text-xl font-semibold mt-12 mb-4">Gestão de Usuários</h2>
         <table className="min-w-full mb-8">
           <thead>
             <tr>
